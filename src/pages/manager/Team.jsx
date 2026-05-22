@@ -3,46 +3,94 @@ import { useSelector, useDispatch } from 'react-redux';
 import PageHeader from '../../components/common/PageHeader';
 import Avatar from '../../components/common/Avatar';
 import Empty from '../../components/common/Empty';
-import { deleteUser } from '../../redux/slices/userSlice';
+import { deleteUser, addUser } from '../../redux/slices/userSlice';
 import { toast } from '../../components/common/Toast';
-
+import { Modal, Button } from 'react-bootstrap';
 export default function Team() {
-  const users = useSelector(s=>s.users.list);
-  const tasks = useSelector(s=>s.tasks.list);
+  const users = useSelector(s => s.users.list);
+  const tasks = useSelector(s => s.tasks.list);
   const dispatch = useDispatch();
   const [q, setQ] = useState('');
   const [dept, setDept] = useState('All');
 
-  const employees = useMemo(()=> users.filter(u=>
-    u.role==='employee' &&
-    (dept==='All'||u.department===dept) &&
+  const [show, setShow] = useState(false);
+
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    department: '',
+    password: ''
+  });
+
+  const employees = useMemo(() => users.filter(u =>
+    u.role === 'employee' &&
+    (dept === 'All' || u.department === dept) &&
     (u.name.toLowerCase().includes(q.toLowerCase()) || u.email.toLowerCase().includes(q.toLowerCase()))
-  ), [users,q,dept]);
+  ), [users, q, dept]);
 
-  const depts = ['All', ...new Set(users.filter(u=>u.role==='employee').map(u=>u.department))];
+  const depts = ['All', ...new Set(users.filter(u => u.role === 'employee').map(u => u.department))];
+  const submitMember = () => {
 
+    if (!form.name || !form.email || !form.department) {
+      toast.error('Please fill all fields');
+      return;
+    }
+
+    dispatch(addUser({
+      name: form.name,
+      email: form.email,
+      department: form.department,
+      password: form.password,
+      role: 'employee'
+    }));
+
+    toast.success('Member added');
+
+    setShow(false);
+
+    setForm({
+      name: '',
+      email: '',
+      department: '',
+      // password: ''
+    });
+  };
   return (
     <>
-    {/* page header start */}
-      <PageHeader title="Team" subtitle="Manage your team members and departments" crumbs={[{label:'Manager'},{label:'Team'}]} />
+      {/* page header start */}
+      <PageHeader
+        title="Team"
+        subtitle="Manage your team members and departments"
+        crumbs={[
+          { label: 'Manager' },
+          { label: 'Team' }
+        ]}
+        actions={
+          <Button onClick={() => setShow(true)}>
+            <i className="bi bi-plus-lg me-1"></i>
+            Add Member
+          </Button>
+        }
+      />
       {/* page header end */}
 
       <div className="tf-card mb-3">
 
         <div className="tf-card-body d-flex gap-2 flex-wrap">
-          <input className="form-control" style={{maxWidth:300}} placeholder="Search team" value={q} onChange={e=>setQ(e.target.value)}/>
-          <select className="form-select" style={{maxWidth:200}} value={dept} onChange={e=>setDept(e.target.value)}>
-            {depts.map(d=><option key={d}>{d}</option>)}
+          <input className="form-control" style={{ maxWidth: 300 }} placeholder="Search team" value={q} onChange={e => setQ(e.target.value)} />
+          <select className="form-select" style={{ maxWidth: 200 }} value={dept} onChange={e => setDept(e.target.value)}>
+            {depts.map(d => <option key={d}>{d}</option>)}
           </select>
+
         </div>
 
       </div>
-      
-      {employees.length===0 ? <Empty title="No team members" icon="bi-people"/> : (
+
+      {employees.length === 0 ? <Empty title="No team members" icon="bi-people" /> : (
         <div className="row g-3">
-          {employees.map(u=>{
-            const open = tasks.filter(t=>t.assigneeId===u.id && t.status!=='Done').length;
-            const done = tasks.filter(t=>t.assigneeId===u.id && t.status==='Done').length;
+          {employees.map(u => {
+            const open = tasks.filter(t => t.assigneeId === u.id && t.status !== 'Done').length;
+            const done = tasks.filter(t => t.assigneeId === u.id && t.status === 'Done').length;
             return (
               <div key={u.id} className="col-12 col-sm-6 col-lg-4 col-xl-3">
                 <div className="tf-card h-100 text-center">
@@ -52,10 +100,10 @@ export default function Team() {
                     <div className="small text-muted mb-2">{u.email}</div>
                     <span className="tf-badge progress mb-3 d-inline-block">{u.department}</span>
                     <div className="row text-center mt-2">
-                      <div className="col-6 border-end"><div style={{fontSize:'1.1rem',fontWeight:700}}>{open}</div><div className="small text-muted">Open</div></div>
-                      <div className="col-6"><div style={{fontSize:'1.1rem',fontWeight:700}}>{done}</div><div className="small text-muted">Done</div></div>
+                      <div className="col-6 border-end"><div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{open}</div><div className="small text-muted">Open</div></div>
+                      <div className="col-6"><div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{done}</div><div className="small text-muted">Done</div></div>
                     </div>
-                    <button className="btn btn-sm btn-outline-danger mt-3" onClick={()=>{dispatch(deleteUser(u.id)); toast.success('Member removed');}}><i className="bi bi-trash me-1"></i>Remove</button>
+                    <button className="btn btn-sm btn-outline-danger mt-3" onClick={() => { dispatch(deleteUser(u.id)); toast.success('Member removed'); }}><i className="bi bi-trash me-1"></i>Remove</button>
                   </div>
                 </div>
               </div>
@@ -63,6 +111,68 @@ export default function Team() {
           })}
         </div>
       )}
+
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Team Member</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+
+            <input
+              className="form-control"
+              value={form.name}
+              onChange={e =>
+                setForm({ ...form, name: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+
+            <input
+              className="form-control"
+              value={form.email}
+              onChange={e =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Department</label>
+
+            <input
+              className="form-control"
+              value={form.department}
+              onChange={e =>
+                setForm({ ...form, department: e.target.value })
+              }
+            />
+          </div>
+
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShow(false)}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="primary"
+            onClick={submitMember}
+          >
+            Add Member
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
