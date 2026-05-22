@@ -1,30 +1,216 @@
-# TaskFlow — Task Management System
+# Task Management System
 
-A modern, Mantis-inspired SaaS task management dashboard built with React + Vite, Redux Toolkit, React Bootstrap, Formik + Yup, Recharts, and @hello-pangea/dnd (React Beautiful DnD successor).
+A modern Task Management System built using React, Redux Toolkit, Vite, React Router, and Bootstrap.
 
-## Quick Start
+This application helps managers and employees collaborate efficiently by managing tasks, projects, teams, and workflow progress.
+
+---
+
+# Features
+
+## Authentication
+
+* Login system
+* Role-based access
+* Manager and Employee dashboards
+* Protected routes
+
+## Task Management
+
+* Create tasks
+* Update task status
+* Assign tasks to employees
+* Task priority handling
+* Task comments
+* Task filtering and searching
+
+## Project Management
+
+* Create and manage projects
+* Track project tasks
+* Project-wise task organization
+
+## Team Management
+
+* View team members
+* Department filtering
+* Employee task statistics
+* Add/remove employees
+
+## Employee Dashboard
+
+* View assigned tasks
+* Update task progress
+* Add comments
+* Task status workflow
+
+## Additional Features
+
+* Toast notifications
+* Light/Dark theme support
+* Redux state persistence using localStorage
+* Responsive UI
+* Reusable components
+
+---
+
+# Tech Stack
+
+| Technology       | Purpose            |
+| ---------------- | ------------------ |
+| React            | Frontend Framework |
+| Redux Toolkit    | State Management   |
+| React Router DOM | Routing            |
+| Bootstrap        | UI Styling         |
+| Vite             | Build Tool         |
+| LocalStorage     | Data Persistence   |
+
+---
+
+# Project Structure
+
+```bash
+src/
+│
+├── components/
+│   ├── common/
+│
+├── data/
+│
+├── hooks/
+│
+├── layouts/
+│
+├── pages/
+│   ├── auth/
+│   ├── manager/
+│   └── employee/
+│
+├── redux/
+│   └── slices/
+│
+├── routes/
+│
+├── styles/
+│
+├── utils/
+│
+├── validations/
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+# Redux Flow
+
+```text
+Component
+   ↓ dispatch(action)
+Redux Slice
+   ↓
+Store Updates
+   ↓
+UI Re-renders Automatically
+```
+
+---
+
+# Main Redux Slices
+
+| Slice             | Purpose                      |
+| ----------------- | ---------------------------- |
+| authSlice         | Authentication handling      |
+| userSlice         | Team/user management         |
+| taskSlice         | Task CRUD and status updates |
+| projectSlice      | Project management           |
+| notificationSlice | Toast notifications          |
+| themeSlice        | Theme switching              |
+
+---
+
+# Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/yourusername/task-management-system.git
+```
+
+## Move Into Project
+
+```bash
+cd task-management-system
+```
+
+## Install Dependencies
+
 ```bash
 npm install
+```
+
+## Run Development Server
+
+```bash
 npm run dev
 ```
-Open http://localhost:5173
 
-## Demo Accounts
-You can register fresh or use:
-- Manager: `manager@demo.com` / `Password1`
-- Employee: `employee@demo.com` / `Password1`
+---
 
-## Tech
-- React 18 + Vite
-- Redux Toolkit (auth, users, projects, tasks, notifications, theme)
-- React Router DOM v6 (role-based protected routes)
-- React Bootstrap + Bootstrap Icons
-- Formik + Yup
-- Recharts (analytics)
-- @hello-pangea/dnd (Kanban)
-- LocalStorage persistence
+# Build For Production
 
-## Routes
-- `/login`, `/register`
-- Manager: `/manager/dashboard`, `/projects`, `/tasks`, `/team`, `/analytics`, `/calendar`, `/settings`
-- Employee: `/employee/dashboard`, `/employee/tasks`, `/employee/kanban`, `/employee/calendar`, `/employee/settings`
+```bash
+npm run build
+```
+
+---
+
+# Demo Accounts
+
+## Manager
+
+```text
+Email: manager@example.com
+Password: 123456
+```
+
+## Employee
+
+```text
+Email: employee@example.com
+Password: 123456
+```
+
+---
+
+# Core Concepts Used
+
+* React Functional Components
+* React Hooks
+* Redux Toolkit
+* useSelector & useDispatch
+* React Router
+* Custom Hooks
+* Component Reusability
+* State Persistence
+* Responsive Design
+
+---
+
+# Future Improvements
+
+* Backend Integration
+* Real Database
+* JWT Authentication
+* API Integration
+* Drag & Drop Kanban
+* Real-time Notifications
+* File Attachments
+* Email Notifications
+
+---
+
+# Author
+
+Developed as a React + Redux Task Management System project.
