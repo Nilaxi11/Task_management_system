@@ -30,8 +30,15 @@ export const taskSchema = Yup.object({
   dueDate: Yup.date().required('Due date required'),
 });
 
+// export const profileSchema = Yup.object({
+//   name: Yup.string().min(2).required(),
+//   email: Yup.string().email().required(),
+//   department: Yup.string(),
+// });
+
 export const profileSchema = Yup.object({
-  name: Yup.string().min(2).required(),
-  email: Yup.string().email().required(),
-  department: Yup.string(),
+  name: Yup.string().min(2).required('Name is required'),
+  email: Yup.string().email().required('Email is required'),
+  department: Yup.string().required('Department is required'),
+  password: Yup.string().min(6, 'Min 6 characters').required('Password is required'),
 });

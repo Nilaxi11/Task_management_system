@@ -2,11 +2,12 @@ import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 
 import PageHeader from '../../components/common/PageHeader';
 import Avatar from '../../components/common/Avatar';
 import { StatusBadge } from '../../components/common/StatusBadge';
+import { projectSchema } from '../../validations/schemas'; 
 
 import {
   addProject,
@@ -30,29 +31,29 @@ export default function Projects() {
   const [statusFilter, setStatusFilter] = useState('All');
 
   // Yup validation 
-  const projectSchema = Yup.object({
-    name: Yup.string()
-      .min(2, 'Project name is too short')
-      .required('Project name is required'),
+  // const projectSchema = Yup.object({
+  //   name: Yup.string()
+  //     .min(2, 'Project name is too short')
+  //     .required('Project name is required'),
 
-    description: Yup.string().max(
-      400,
-      'Description cannot exceed 400 characters'
-    ),
+  //   description: Yup.string().max(
+  //     400,
+  //     'Description cannot exceed 400 characters'
+  //   ),
 
-    deadline: Yup.date().required(
-      'Deadline is required'
-    ),
+  //   deadline: Yup.date().required(
+  //     'Deadline is required'
+  //   ),
 
-    status: Yup.string()
-      .oneOf([
-        'Todo',
-        'In Progress',
-        'Review',
-        'Done',
-      ])
-      .required('Select project status'),
-  });
+  //   status: Yup.string()
+  //     .oneOf([
+  //       'Todo',
+  //       'In Progress',
+  //       'Review',
+  //       'Done',
+  //     ])
+  //     .required('Select project status'),
+  // });
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {

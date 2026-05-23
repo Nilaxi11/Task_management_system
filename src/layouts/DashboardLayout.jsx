@@ -129,9 +129,14 @@ export default function DashboardLayout() {
             <input placeholder="Search projects, tasks, people..." />
           </div> */}
           <div className="ms-auto d-flex align-items-center gap-2">
+
+            {/* Theme Toggle */}
             <button className="btn btn-light" onClick={() => dispatch(toggleTheme())} title="Toggle theme">
               <i className={`bi ${themeMode === 'dark' ? 'bi-sun' : 'bi-moon'}`}></i>
             </button>
+            {/* theme toggle end */}
+
+            {/* notifications start */}
             <Dropdown align="end">
               <Dropdown.Toggle as="button" className="btn btn-light position-relative" bsPrefix="btn">
                 <i className="bi bi-bell"></i>
@@ -154,11 +159,15 @@ export default function DashboardLayout() {
                 </div>
               </Dropdown.Menu>
             </Dropdown>
+            {/* notifications end */}
+
             <Dropdown align="end">
+
               <Dropdown.Toggle as="button" className="btn btn-light d-flex align-items-center gap-2" bsPrefix="btn">
                 <Avatar user={user} size="sm" />
                 <span className="d-none d-md-inline" style={{ fontSize: '.85rem' }}>{user.name}</span>
               </Dropdown.Toggle>
+
               <Dropdown.Menu>
                 <Dropdown.Header>{user.email}</Dropdown.Header>
                 <Dropdown.Item onClick={() => navigate(user.role === 'manager' ? '/manager/settings' : '/employee/settings')}><i className="bi bi-person me-2"></i>Profile</Dropdown.Item>
@@ -166,6 +175,7 @@ export default function DashboardLayout() {
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout}><i className="bi bi-box-arrow-right me-2"></i>Logout</Dropdown.Item>
               </Dropdown.Menu>
+              
             </Dropdown>
           </div>
         </header>
@@ -177,7 +187,7 @@ export default function DashboardLayout() {
         </main>
         {/* main content end */}
       </div>
-      
+
     </div>
   );
 }

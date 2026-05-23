@@ -1,12 +1,12 @@
 import { Formik } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import { attemptLogin } from '../../redux/slices/authSlice';
 import { toast } from '../../components/common/Toast';
-
+import { loginSchema } from '../../validations/schemas';
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,15 +14,15 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Validation schema 
-  const loginSchema = Yup.object({
-    email: Yup.string()
-      .email('Please enter a valid email')
-      .required('Email is required'),
+  // const loginSchema = Yup.object({
+  //   email: Yup.string()
+  //     .email('Please enter a valid email')
+  //     .required('Email is required'),
 
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-  });
+  //   password: Yup.string()
+  //     .min(6, 'Password must be at least 6 characters')
+  //     .required('Password is required'),
+  // });
 
   const handleLogin = (values, { setSubmitting, setStatus }) => {
     try {

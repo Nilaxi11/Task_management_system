@@ -6,6 +6,8 @@ import Empty from '../../components/common/Empty';
 import { deleteUser, addUser } from '../../redux/slices/userSlice';
 import { toast } from '../../components/common/Toast';
 import { Modal, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import { profileSchema } from '../../validations/schemas';
 export default function Team() {
   const users = useSelector(s => s.users.list);
   const tasks = useSelector(s => s.tasks.list);
@@ -15,12 +17,12 @@ export default function Team() {
 
   const [show, setShow] = useState(false);
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    department: '',
-    password: ''
-  });
+  // const [form, setForm] = useState({
+  //   name: '',
+  //   email: '',
+  //   department: '',
+  //   password: ''
+  // });
 
   const employees = useMemo(() => users.filter(u =>
     u.role === 'employee' &&
@@ -29,31 +31,31 @@ export default function Team() {
   ), [users, q, dept]);
 
   const depts = ['All', ...new Set(users.filter(u => u.role === 'employee').map(u => u.department))];
-  const submitMember = () => {
+  const submitMember = async () => {
+    try {
+      await profileSchema.validate(form, { abortEarly: false });
 
-    if (!form.name || !form.email || !form.department) {
-      toast.error('Please fill all fields');
-      return;
+      dispatch(addUser({
+        name: form.name,
+        email: form.email,
+        department: form.department,
+        password: form.password,
+        role: 'employee'
+      }));
+
+      toast.success('Member added');
+      setShow(false);
+
+      setForm({
+        name: '',
+        email: '',
+        department: '',
+        password: ''
+      });
+
+    } catch (err) {
+      toast.error(err.errors?.[0] || 'Validation error');
     }
-
-    dispatch(addUser({
-      name: form.name,
-      email: form.email,
-      department: form.department,
-      password: form.password,
-      role: 'employee'
-    }));
-
-    toast.success('Member added');
-
-    setShow(false);
-
-    setForm({
-      name: '',
-      email: '',
-      department: '',
-      // password: ''
-    });
   };
   return (
     <>
@@ -113,65 +115,110 @@ export default function Team() {
       )}
 
       <Modal show={show} onHide={() => setShow(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Team Member</Modal.Title>
-        </Modal.Header>
 
-        <Modal.Body>
+        <Formik
+          initialValues={{
+            name: '',
+            email: '',
+            department: '',
+            password: ''
+          }}
+          validationSchema={profileSchema}
+          onSubmit={(values) => {
+            dispatch(addUser({
+              ...values,
+              role: 'employee'
+            }));
 
-          <div className="mb-3">
-            <label className="form-label">Name</label>
+            toast.success('Member added');
+            setShow(false);
+          }}
+        >
 
-            <input
-              className="form-control"
-              value={form.name}
-              onChange={e =>
-                setForm({ ...form, name: e.target.value })
-              }
-            />
-          </div>
+          {({ values, handleChange, handleSubmit, handleBlur, errors, touched }) => (
 
-          <div className="mb-3">
-            <label className="form-label">Email</label>
+            <form onSubmit={handleSubmit}>
 
-            <input
-              className="form-control"
-              value={form.email}
-              onChange={e =>
-                setForm({ ...form, email: e.target.value })
-              }
-            />
-          </div>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Team Member</Modal.Title>
+              </Modal.Header>
 
-          <div className="mb-3">
-            <label className="form-label">Department</label>
+              <Modal.Body>
 
-            <input
-              className="form-control"
-              value={form.department}
-              onChange={e =>
-                setForm({ ...form, department: e.target.value })
-              }
-            />
-          </div>
+                <div className="mb-3">
+                  <label>Name</label>
+                  <input
+                    name="name"
+                    className="form-control"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {touched.name && errors.name && (
+                    <div className="text-danger">{errors.name}</div>
+                  )}
+                </div>
 
-        </Modal.Body>
+                <div className="mb-3">
+                  <label>Email</label>
+                  <input
+                    name="email"
+                    className="form-control"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {touched.email && errors.email && (
+                    <div className="text-danger">{errors.email}</div>
+                  )}
+                </div>
 
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setShow(false)}
-          >
-            Cancel
-          </Button>
+                <div className="mb-3">
+                  <label>Department</label>
+                  <input
+                    name="department"
+                    className="form-control"
+                    value={values.department}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {touched.department && errors.department && (
+                    <div className="text-danger">{errors.department}</div>
+                  )}
+                </div>
 
-          <Button
-            variant="primary"
-            onClick={submitMember}
-          >
-            Add Member
-          </Button>
-        </Modal.Footer>
+                <div className="mb-3">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-danger">{errors.password}</div>
+                  )}
+                </div>
+
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShow(false)}>
+                  Cancel
+                </Button>
+
+                <Button type="submit" variant="primary">
+                  Add Member
+                </Button>
+              </Modal.Footer>
+
+            </form>
+          )}
+
+        </Formik>
+
       </Modal>
     </>
   );

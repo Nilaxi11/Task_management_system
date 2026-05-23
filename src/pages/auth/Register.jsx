@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { addUser } from '../../redux/slices/userSlice';
 import { login } from '../../redux/slices/authSlice';
 import { toast } from '../../components/common/Toast';
+import { registerSchema } from '../../validations/schemas';
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -15,32 +16,32 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Validation schema inside component file
-  const registerSchema = Yup.object({
-    name: Yup.string()
-      .min(2, 'Name is too short')
-      .required('Full name is required'),
+  // const registerSchema = Yup.object({
+  //   name: Yup.string()
+  //     .min(2, 'Name is too short')
+  //     .required('Full name is required'),
 
-    email: Yup.string()
-      .email('Enter a valid email')
-      .required('Email is required'),
+  //   email: Yup.string()
+  //     .email('Enter a valid email')
+  //     .required('Email is required'),
 
-    password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .matches(/[A-Z]/, 'Include at least 1 uppercase letter')
-      .matches(/[0-9]/, 'Include at least 1 number')
-      .required('Password is required'),
+  //   password: Yup.string()
+  //     .min(8, 'Password must be at least 8 characters')
+  //     .matches(/[A-Z]/, 'Include at least 1 uppercase letter')
+  //     .matches(/[0-9]/, 'Include at least 1 number')
+  //     .required('Password is required'),
 
-    confirm: Yup.string()
-      .oneOf([Yup.ref('password')], 'Passwords do not match')
-      .required('Please confirm your password'),
+  //   confirm: Yup.string()
+  //     .oneOf([Yup.ref('password')], 'Passwords do not match')
+  //     .required('Please confirm your password'),
 
-    role: Yup.string()
-      .oneOf(['manager', 'employee'])
-      .required('Select a role'),
+  //   role: Yup.string()
+  //     .oneOf(['manager', 'employee'])
+  //     .required('Select a role'),
 
-    department: Yup.string()
-      .required('Department is required'),
-  });
+  //   department: Yup.string()
+  //     .required('Department is required'),
+  // });
 
   const handleRegister = (values, { setSubmitting }) => {
     try {
