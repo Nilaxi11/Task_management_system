@@ -171,15 +171,15 @@ npm run build
 ## Manager
 
 ```text
-Email: manager@example.com
-Password: 123456
+Email: manager@demo.com
+Password: Password1
 ```
 
 ## Employee
 
 ```text
-Email: employee@example.com
-Password: 123456
+Email: employee@demo.com
+Password: Password1
 ```
 
 ---
