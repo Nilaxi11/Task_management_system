@@ -47,18 +47,71 @@ export default function ManagerDashboard() {
       {/* page header end */}
       {/* Stats start*/}
       <div className="row g-3 mb-4">
-        {icons.map((s) => (
-          <div className="col-12 col-sm-6 col-xl-3" key={s.key}>
-            <div className="tf-stat">
-              <div className="icon" style={{ background: s.bg, color: s.color }}><i className={`bi ${s.icon}`}></i></div>
-              <div>
-                <div className="label">{s.label}</div>
-                <div className="value">{stats[s.key]}</div>
-                <div className="trend text-success"><i className="bi bi-arrow-up"></i> 12% vs last week</div>
-              </div>
+        {icons.map((s) => {
+
+          const links = {
+            projects: '/manager/projects',
+            tasks: '/manager/tasks',
+            team: '/manager/team',
+            completion: '/manager/tasks'
+          };
+
+          return (
+            <div
+              className="col-12 col-sm-6 col-xl-3"
+              key={s.key}
+            >
+
+              <Link
+                to={links[s.key]}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit'
+                }}
+              >
+
+                <div
+                  className="tf-stat"
+                  style={{
+                    cursor: 'pointer',
+                    transition: '.2s'
+                  }}
+                >
+
+                  <div
+                    className="icon"
+                    style={{
+                      background: s.bg,
+                      color: s.color
+                    }}
+                  >
+                    <i className={`bi ${s.icon}`}></i>
+                  </div>
+
+                  <div>
+
+                    <div className="label">
+                      {s.label}
+                    </div>
+
+                    <div className="value">
+                      {stats[s.key]}
+                    </div>
+
+                    <div className="trend text-success">
+                      <i className="bi bi-arrow-up"></i>
+                      {' '}12% vs last week
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </Link>
+
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       {/* Stats End */}
 

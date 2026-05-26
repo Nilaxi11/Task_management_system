@@ -30,7 +30,7 @@ export default function Settings() {
                     <div className="mb-3"><label className="form-label">Email</label>
                       <input name="email" type="email" className={`form-control ${touched.email&&errors.email?'is-invalid':''}`} value={values.email} onChange={handleChange}/>
                     </div>
-                    <div className="mb-3"><label className="form-label">Department</label>
+                    <div className="mb-3"><label className="form-label" >Department</label>
                       <input name="department" className="form-control" value={values.department} onChange={handleChange}/>
                     </div>
                     <button type="submit" className="btn btn-primary">Save changes</button>

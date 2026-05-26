@@ -114,6 +114,7 @@ export default function Team() {
         </div>
       )}
 
+
       <Modal show={show} onHide={() => setShow(false)} centered>
 
         <Formik

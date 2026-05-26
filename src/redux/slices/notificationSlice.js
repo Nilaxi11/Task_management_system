@@ -20,3 +20,5 @@ const slice = createSlice({
 
 export const { addNotification, markRead, markAllRead, clearAll } = slice.actions;
 export default slice.reducer;
+
+
