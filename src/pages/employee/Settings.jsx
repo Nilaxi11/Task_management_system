@@ -51,13 +51,13 @@ export default function Settings() {
               </div>
             </div>
           </div>
-          <div className="tf-card">
+          {/* <div className="tf-card">
             <div className="tf-card-header"><h6>Data</h6></div>
             <div className="tf-card-body">
               <p className="small text-muted">Reset all locally-stored data and reload the app.</p>
               <button className="btn btn-outline-danger" onClick={()=>{if(confirm('Reset all data?')) dispatch(resetApp());}}><i className="bi bi-arrow-counterclockwise me-1"></i>Reset LocalStorage</button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
