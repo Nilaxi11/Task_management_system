@@ -1,24 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PageHeader from '../../components/common/PageHeader';
-import {
-  StatusBadge,
-  PriorityBadge
-} from '../../components/common/StatusBadge';
+import { StatusBadge,PriorityBadge} from '../../components/common/StatusBadge';
 import Empty from '../../components/common/Empty';
-import {
-  setStatus,
-  addComment
-} from '../../redux/slices/taskSlice';
+import {setStatus,addComment} from '../../redux/slices/taskSlice';
 import { useAuth } from '../../hooks/useAuth';
-import {
-  fmtDate,
-  relTime
-} from '../../utils/helpers';
-import {
-  Modal,
-  Button
-} from 'react-bootstrap';
+import {fmtDate,relTime} from '../../utils/helpers';
+import {Modal,Button} from 'react-bootstrap';
 import { toast } from '../../components/common/Toast';
 
 export default function EmployeeTasks() {
@@ -41,19 +29,18 @@ export default function EmployeeTasks() {
     s => s.projects.list
   );
 
+  // Stores search text.
   const [q, setQ] = useState('');
+  // Status Filter
   const [st, setSt] = useState('All');
 
   // NEW SORT
   const [sort, setSort] = useState('latest');
-
   const [detail, setDetail] = useState(null);
-
   const [text, setText] = useState('');
 
   // PAGINATION
   const [page, setPage] = useState(1);
-
   const PER = 8;
 
   // FILTER + SORT
@@ -513,11 +500,11 @@ export default function EmployeeTasks() {
                 detail.comments
                   .length === 0) && (
 
-                <p className="small text-muted">
-                  No comments yet
-                </p>
+                  <p className="small text-muted">
+                    No comments yet
+                  </p>
 
-              )}
+                )}
 
               {(detail.comments || []).map(
                 c => {

@@ -119,11 +119,10 @@ export default function Register() {
                   name="name"
                   value={values.name}
                   onChange={handleChange}
-                  className={`form-control ${
-                    touched.name && errors.name
+                  className={`form-control ${touched.name && errors.name
                       ? 'is-invalid'
                       : ''
-                  }`}
+                    }`}
                   placeholder="John Doe"
                 />
 
@@ -145,11 +144,10 @@ export default function Register() {
                   name="email"
                   value={values.email}
                   onChange={handleChange}
-                  className={`form-control ${
-                    touched.email && errors.email
+                  className={`form-control ${touched.email && errors.email
                       ? 'is-invalid'
                       : ''
-                  }`}
+                    }`}
                   placeholder="you@company.com"
                 />
 
@@ -211,36 +209,31 @@ export default function Register() {
                   Password
                 </label>
 
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  className={`form-control ${
-                    touched.password && errors.password
-                      ? 'is-invalid'
-                      : ''
-                  }`}
-                  placeholder="Create a strong password"
-                />
-
-                <button
-                  type="button"
-                  className="tf-pw-toggle"
-                  style={{ top: '70%' }}
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                >
-                  <i
-                    className={`bi ${
-                      showPassword
-                        ? 'bi-eye-slash'
-                        : 'bi-eye'
-                    }`}
+                <div className="input-group">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    className={`form-control ${touched.password && errors.password
+                        ? 'is-invalid'
+                        : ''
+                      }`}
+                    placeholder="Create a strong password"
                   />
-                </button>
 
+                    <button
+                    type="button"
+                    className="btn "
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{borderColor:"#dee2e6"}}
+                  >
+                    <i
+                      className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"
+                        }`}
+                    />
+                  </button>
+                </div>
                 {touched.password && errors.password && (
                   <div className="invalid-feedback d-block">
                     {errors.password}
@@ -259,11 +252,10 @@ export default function Register() {
                   name="confirm"
                   value={values.confirm}
                   onChange={handleChange}
-                  className={`form-control ${
-                    touched.confirm && errors.confirm
+                  className={`form-control ${touched.confirm && errors.confirm
                       ? 'is-invalid'
                       : ''
-                  }`}
+                    }`}
                   placeholder="Re-enter password"
                 />
 

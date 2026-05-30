@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { seedUsers } from '../../data/seed';
 
-const initialState = { currentUser: null, remember: false };
+const initialState = {
+  currentUser: null,
+  remember: false
+};
 
 const authSlice = createSlice({
   name: 'auth',
@@ -11,7 +14,10 @@ const authSlice = createSlice({
       state.currentUser = payload.user;
       state.remember = !!payload.remember;
     },
-    logout(state) { state.currentUser = null; },
+
+    logout(state) 
+    { state.currentUser = null; },
+
     updateProfile(state, { payload }) {
       if (state.currentUser) state.currentUser = { ...state.currentUser, ...payload };
     },

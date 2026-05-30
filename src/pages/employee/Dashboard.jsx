@@ -46,6 +46,7 @@ export default function EmployeeDashboard() {
 
   const upcoming = [...tasks].filter(t => t.status !== 'Done').sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)).slice(0, 5);
 
+  // chart cat.
   const data = ['Todo', 'In Progress', 'Review', 'Done'].map(s => ({ status: s, count: tasks.filter(t => t.status === s).length }));
 
   return (
@@ -74,12 +75,13 @@ export default function EmployeeDashboard() {
           <div className="tf-card">
             <div className="tf-card-header"><h6>Your task breakdown</h6></div>
             <div className="tf-card-body" style={{ height: 300 }}>
-              <ResponsiveContainer><BarChart data={data}>
-                <CartesianGrid stroke="var(--tf-border)" strokeDasharray="3 3" />
-                <XAxis dataKey="status" stroke="var(--tf-muted)" fontSize={12} /><YAxis stroke="var(--tf-muted)" fontSize={12} />
-                <Tooltip contentStyle={{ background: 'var(--tf-surface)', border: '1px solid var(--tf-border)' }} />
-                <Bar dataKey="count" fill="#1677ff" radius={[6, 6, 0, 0]} />
-              </BarChart></ResponsiveContainer>
+              <ResponsiveContainer>
+                <BarChart data={data}>
+                  <CartesianGrid stroke="var(--tf-border)" strokeDasharray="3 3" />
+                  <XAxis dataKey="status" stroke="var(--tf-muted)" fontSize={12} /><YAxis stroke="var(--tf-muted)" fontSize={12} />
+                  <Tooltip contentStyle={{ background: 'var(--tf-surface)', border: '1px solid var(--tf-border)' }} />
+                  <Bar dataKey="count" fill="#1677ff" radius={[6, 6, 0, 0]} />
+                </BarChart></ResponsiveContainer>
             </div>
           </div>
         </div>
@@ -90,15 +92,17 @@ export default function EmployeeDashboard() {
           <div className="tf-card">
             <div className="tf-card-header"><h6>Upcoming deadlines</h6><Link to="/employee/tasks" className="small">All</Link></div>
             <div className="tf-card-body">
-              {upcoming.length === 0 ? <Empty icon="bi-stars" title="All clear!" body="No upcoming tasks." /> : upcoming.map(t => (
-                <div key={t.id} className="d-flex justify-content-between align-items-center py-2 border-bottom" style={{ borderColor: 'var(--tf-border)' }}>
-                  <div>
-                    <div style={{ fontSize: '.88rem', fontWeight: 600 }}>{t.title}</div>
-                    <div className="small text-muted">{projects.find(p => p.id === t.projectId)?.name} · Due {fmtDate(t.dueDate)}</div>
+              {upcoming.length === 0 ?
+                <Empty icon="bi-stars" title="All clear!" body="No upcoming tasks." /> :
+                upcoming.map(t => (
+                  <div key={t.id} className="d-flex justify-content-between align-items-center py-2 border-bottom" style={{ borderColor: 'var(--tf-border)' }}>
+                    <div>
+                      <div style={{ fontSize: '.88rem', fontWeight: 600 }}>{t.title}</div>
+                      <div className="small text-muted">{projects.find(p => p.id === t.projectId)?.name} · Due {fmtDate(t.dueDate)}</div>
+                    </div>
+                    <PriorityBadge priority={t.priority} />
                   </div>
-                  <PriorityBadge priority={t.priority} />
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>

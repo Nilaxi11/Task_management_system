@@ -114,9 +114,8 @@ export default function Login() {
                   placeholder="you@company.com"
                   value={values.email}
                   onChange={handleChange}
-                  className={`form-control ${
-                    touched.email && errors.email ? 'is-invalid' : ''
-                  }`}
+                  className={`form-control ${touched.email && errors.email ? 'is-invalid' : ''
+                    }`}
                 />
 
                 {touched.email && errors.email && (
@@ -127,40 +126,33 @@ export default function Login() {
               </div>
 
               {/* Password */}
-              <div className="mb-3 position-relative">
+              <div className="mb-3">
                 <label className="form-label fw-semibold">
                   Password
                 </label>
 
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  // placeholder="••••••••"
-                  value={values.password}
-                  onChange={handleChange}
-                  className={`form-control ${
-                    touched.password && errors.password
-                      ? 'is-invalid'
-                      : ''
-                  }`}
-                />
-
-                <button
-                  type="button"
-                  className="tf-pw-toggle"
-                  style={{ top: '70%' }}
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                >
-                  <i
-                    className={`bi ${
-                      showPassword
-                        ? 'bi-eye-slash'
-                        : 'bi-eye'
-                    }`}
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    className={`form-control ${touched.password && errors.password ? "is-invalid" : ""
+                      }`}
                   />
-                </button>
+
+                  <button
+                    type="button"
+                    className="btn "
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{borderColor:"#dee2e6"}}
+                  >
+                    <i
+                      className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"
+                        }`}
+                    />
+                  </button>
+                </div>
 
                 {touched.password && errors.password && (
                   <div className="invalid-feedback d-block">

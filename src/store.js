@@ -6,10 +6,13 @@ import taskReducer from './redux/slices/taskSlice';
 import notificationReducer from './redux/slices/notificationSlice';
 import themeReducer from './redux/slices/themeSlice';
 
+//defines which Redux sections should be saved to localstorage 
 const PERSIST_KEYS = ['auth', 'users', 'projects', 'tasks', 'notifications', 'theme'];
 
+// restore saved state
 const loadState = () => {
   try {
+    // reads data
     const raw = localStorage.getItem('taskflow_state');
     return raw ? JSON.parse(raw) : undefined;
   } catch { return undefined; }
